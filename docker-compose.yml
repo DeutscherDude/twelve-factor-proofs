@@ -29,3 +29,15 @@ services:
       - "${DB_PORT}:5000"
     volumes:
       - /var/data/postgres:/data/db/postgres
+  rabbit:
+    container_name: rabbit_messages
+    restart: always
+    image: rabbitmq:3.10.7-alpine
+    environment:
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD?err}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER?err}
+      RABBITMQ_PORT: ${RABBITMQ_PORT?err}
+    ports:
+      - "${RABBITMQ_PORT}:${RABBITMQ_PORT}"
+
+  
