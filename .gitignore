@@ -1,0 +1,7 @@
+# Node modules & temp
+node_modules
+data
+
+# env files
+*.env
+

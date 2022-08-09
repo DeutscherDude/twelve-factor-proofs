@@ -1,0 +1,29 @@
+version: '3.9'
+services:
+  app:
+    container_name: twelve_app
+    restart: always
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    command: yarn nodemon -L --exec ts-node ./src/index.ts
+    environment: 
+      NODE_SERVER_PORT: ${NODE_SERVER_PORT?err}
+      DB_TYPE: ${DB_TYPE?err}
+      DB_NAME: ${DB_NAME?err}
+      DB_URI: ${DB_URI?err}
+    ports:
+      - "${NODE_SERVER_PORT}:3000"
+    volumes:
+      - "./src:/app/src"
+  db:
+    container_name: postgresql
+    restart: always
+    image: postgres:14.4-alpine
+    environment:
+      DB_PORT: ${DB_PORT?err}
+      POSTGRES_PASSWORD: ${DB_ROOT_PASSWORD?err}
+      POSTGRES_USER: ${DB_ROOT_PASSWORD?err}
+      POSTGRES_DB: ${DB_NAME?err}
+    ports:
+      - "${DB_PORT}:5000"

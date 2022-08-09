@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"allowJs": false,
+		"target": "ES6",
+		"experimentalDecorators": true,
+		"alwaysStrict": true,
+		"rootDir": "./src",
+		"outDir": "./dist",
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+		"strictPropertyInitialization": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"forceConsistentCasingInFileNames": true,
+		"allowUnreachableCode": false
+	}
+}
