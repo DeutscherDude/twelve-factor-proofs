@@ -1,7 +1,15 @@
+import * as dotenv from 'dotenv';
+
 export class EnvService {
-	constructor() {}
+	private readonly env: dotenv.DotenvConfigOutput;
+
+	constructor() {
+		this.env = dotenv.config();
+	}
 
 	async getRabbitMqUri() {
-		return 'amqp:qwerty:asdfg@localhost:6666';
+		if (this.env?.parsed?.RABBIT_MQ_CONNECTION === undefined)
+			throw new Error('RabbitMQ URI not set!');
+		return this.env.parsed.RABBIT_MQ_CONNECTION;
 	}
 }
