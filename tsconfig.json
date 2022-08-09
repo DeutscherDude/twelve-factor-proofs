@@ -1,7 +1,8 @@
 {
 	"compilerOptions": {
 		"allowJs": false,
-		"target": "ES6",
+		"target": "es6",
+		"module": "ESNext",
 		"experimentalDecorators": true,
 		"alwaysStrict": true,
 		"rootDir": "./src",
