@@ -32,6 +32,7 @@ to scan files for credentials, passwords, usernames, logins, emails, secrets and
 | Limus test passed? | Yes, as per the below results of the GREP command | No, credentials simple to extract from the codebase  |
 
 <p>Config in environment - sensitive data is stored in an .env file, which will not be pushed to the repository</p>
+
 ```bash
 ./yarn.lock:    js-tokens "^4.0.0"
 ./yarn.lock:js-tokens@^4.0.0:
@@ -50,7 +51,9 @@ to scan files for credentials, passwords, usernames, logins, emails, secrets and
 ./docker-compose.yml:      POSTGRES_USER: ${DB_ROOT_PASSWORD?err}
 ./docker-compose.yml:      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD?err}
 ```
+
 <p>In-code config - all credentials are stored directly the codebase and will be pushed to the repository</p>
+
 ```bash
 ./yarn.lock:    js-tokens "^4.0.0"
 ./yarn.lock:js-tokens@^4.0.0:
