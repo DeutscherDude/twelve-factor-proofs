@@ -49,7 +49,7 @@ to scan files for credentials, passwords, usernames, logins, emails, secrets and
 ./docker-compose.yml:      POSTGRES_PASSWORD: ${DB_ROOT_PASSWORD?err}
 ./docker-compose.yml:      POSTGRES_USER: ${DB_ROOT_PASSWORD?err}
 ./docker-compose.yml:      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD?err}
-````
+```
 <p>In-code config - all credentials are stored directly the codebase and will be pushed to the repository</p>
 ```bash
 ./yarn.lock:    js-tokens "^4.0.0"
