@@ -1,4 +1,4 @@
-import client, { Connection } from 'amqplib';
+import client, { Channel, Connection } from 'amqplib';
 import { EnvService } from '../config/envService';
 
 export class RabbitMqConnection {
@@ -9,8 +9,10 @@ export class RabbitMqConnection {
 		}
 		this.createConnection();
 	}
-	async createConnection(): Promise<void> {
+	async createConnection(): Promise<Connection> {
 		const uri = await this.envService.getRabbitMqUri();
-		this.connection = await client.connect(uri);
+		const temp = 'amqp://testing:test@rabbit:6666';
+		this.connection = await client.connect(temp);
+		return this.connection!;
 	}
 }

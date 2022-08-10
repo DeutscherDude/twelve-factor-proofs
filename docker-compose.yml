@@ -19,6 +19,8 @@ services:
     depends_on:
       - db
       - rabbit
+    networks:
+      - rabbitmq_net
   db:
     container_name: postgresql
     restart: always
@@ -35,16 +37,16 @@ services:
   rabbit:
     container_name: rabbit_messages
     restart: always
+    hostname: rabbit
     image: rabbitmq:3.10.7-management-alpine
-    hostname: rabbit_test
     environment:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD?err}
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER?err}
-      RABBITMQ_PORT: ${RABBITMQ_PORT?err}
+      RABBITMQ_DIST_PORT: ${RABBITMQ_PORT?err}
       RABBITMQ_MAN_PORT: ${RABBITMQ_MAN_PORT}
     ports:
       - ${RABBITMQ_MAN_PORT}:15672
-      - 5672:5672
+      - ${RABBITMQ_PORT}:${RABBITMQ_PORT}
     networks:
       - rabbitmq_net
 
