@@ -1,10 +1,13 @@
 import express from 'express';
+import { EnvService } from './config/envService';
+import { RabbitMqConnection } from './rabbit/rabbitConnection';
 
-const startServer = () => {
+const startServer = async (rabbitConnection: RabbitMqConnection, envService: EnvService) => {
 	const app = express();
+	const port = await envService.getServerPort();
 
-	app.listen(3000, () => {
-		console.log('Server running at port 3000');
+	app.listen(port, () => {
+		console.log(`Server running at port ${port}`);
 	});
 };
 

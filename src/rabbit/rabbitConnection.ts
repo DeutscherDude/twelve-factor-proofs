@@ -11,6 +11,7 @@ export class RabbitMqConnection {
 	}
 	async createConnection(): Promise<void> {
 		const uri = await this.envService.getRabbitMqUri();
-		this.connection = await client.connect(uri);
+		const temp = 'amqp:qwerty:asdfg@rabbit_messages:5672'
+		this.connection = await client.connect(temp);
 	}
 }

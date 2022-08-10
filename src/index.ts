@@ -6,7 +6,7 @@ const envService = new EnvService();
 const rabbitConn = new RabbitMqConnection(envService);
 
 try {
-	startServer();
+	startServer(rabbitConn, envService);
 } catch (err) {
 	console.log('Unhandled exception: ' + err);
 }
