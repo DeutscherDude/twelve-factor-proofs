@@ -13,8 +13,11 @@
 
 As mentioned above, the limus test can easily determine, whether the app is created in compliance with the Twelve App rules.
 To that end, we will use a simple grep command:
+
+For in-code config:
+
 ```bash
-"grep -r -E -i --exclude-dir=node_modules 'password|token|apikey|api_key|aws_key|awskey|credentials|pwd|email|e-mail|login|username' ."
+"grep -r -E -i --exclude-dir=node_modules 'password|token|apikey|api_key|aws_key|awskey|credentials|pwd|email|e-mail|login|username|uri' ./src/config-in-code"
 ```
 to scan files for credentials, passwords, usernames, logins, emails, secrets and api keys.
 
