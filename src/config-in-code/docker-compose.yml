@@ -1,0 +1,54 @@
+version: '3.9'
+services:
+  app:
+    container_name: twelve_app
+    restart: always
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    command: yarn nodemon -L --exec ts-node ./src/index.ts
+    environment: 
+      NODE_SERVER_PORT: ${NODE_SERVER_PORT?err}
+      DB_TYPE: 'postgres'
+      DB_NAME: 'dummy'
+      DB_URI: ''
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./src:/app/src"
+    depends_on:
+      - db
+      - rabbit
+  db:
+    container_name: postgresql
+    restart: always
+    image: postgres:14.4-alpine
+    environment:
+      DB_PORT: 27017
+      POSTGRES_PASSWORD: 'aaaaa'
+      POSTGRES_USER: 'user'
+      POSTGRES_DB: 'secretDb'
+    ports:
+      - "27017:27017"
+    volumes:
+      - /var/data/postgres:/data/db/postgres
+  rabbit:
+    container_name: rabbit_messages
+    restart: always
+    image: rabbitmq:3.10.7-management-alpine
+    hostname: rabbit_test
+    environment:
+      RABBITMQ_DEFAULT_PASS: 12345
+      RABBITMQ_DEFAULT_USER: 'user'
+      RABBITMQ_PORT: 5555
+      RABBITMQ_MAN_PORT: 12334
+    ports:
+      - '12334:15672'
+      - '5672:5672'
+    networks:
+      - rabbitmq_net
+
+networks:
+  rabbitmq_net:
+    driver: bridge
+  
