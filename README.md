@@ -17,14 +17,14 @@ To that end, we will use a simple grep command:
 For in-code config:
 
 ```bash
-"grep -r -E -i --exclude-dir=node_modules 'password|token|apikey|api_key|aws_key|awskey|credentials|pwd|email|e-mail|login|username|uri' ./src/config-in-code"
+grep -r -E -i --exclude-dir=node_modules 'password|pass|token|apikey|api_key|aws_key|awskey|credentials|pwd|email|e-mail|login|username|uri' ./src/config-in-code
 ```
 to scan files for credentials, passwords, usernames, logins, emails, secrets and api keys.
 
 For in-env config:
 
 ```bash
-"grep -r -E -i --exclude-dir=node_modules 'password|token|apikey|api_key|aws_key|awskey|credentials|pwd|email|e-mail|login|username|uri' ./src/config-in-env"
+grep -r -E -i --exclude-dir=node_modules 'password|token|apikey|api_key|aws_key|awskey|credentials|pwd|email|e-mail|login|username|uri' ./src/config-in-env
 ```
 
 > Software and OS used in this implementation:
@@ -43,31 +43,24 @@ For in-env config:
 <p>Config in environment - sensitive data is stored in an .env file, which will not be pushed to the repository</p>
 
 ```bash
-./yarn.lock:    js-tokens "^4.0.0"
-./yarn.lock:js-tokens@^4.0.0:
-./yarn.lock:  resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
-./yarn.lock:  integrity sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg==
-./.env:DB_ROOT_USERNAME=test
-./.env:DB_ROOT_PASSWORD=test
-./.env:RABBITMQ_PASSWORD=asdfg
-./.env:apiKey=cmon
-./.env:awsKey=jefreeeey
-./.env:aws_key=you
-./.env:token=can
-./.env:credentials=do
-./.env:pwd=it
-./docker-compose.yml:      POSTGRES_PASSWORD: ${DB_ROOT_PASSWORD?err}
-./docker-compose.yml:      POSTGRES_USER: ${DB_ROOT_PASSWORD?err}
-./docker-compose.yml:      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD?err}
+./src/config-in-env/config/envService.ts:       async getRabbitMqUri() {
+./src/config-in-env/config/envService.ts:               if (this.env?.parsed?.RABBITMQ_URI === undefined)
+./src/config-in-env/config/envService.ts:                       throw new Error('RabbitMQ URI not set!');
+./src/config-in-env/config/envService.ts:               return this.env.parsed.RABBITMQ_URI;
+./src/config-in-env/docker-compose.yml:      DB_URI: ${DB_URI?err}
+./src/config-in-env/docker-compose.yml:      POSTGRES_PASSWORD: ${DB_ROOT_PASSWORD?err}
+./src/config-in-env/docker-compose.yml:      POSTGRES_USER: ${DB_ROOT_PASSWORD?err}
+./src/config-in-env/docker-compose.yml:      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD?err}
+./src/config-in-env/rabbit/rabbitConnection.ts:         const uri = await this.envService.getRabbitMqUri();
+./src/config-in-env/app.env:RABBITMQ_URI=amqp:qwerty:asdfg@localhost:5672
 ```
 
 <p>In-code config - all credentials are stored directly the codebase and will be pushed to the repository</p>
 
 ```bash
-./yarn.lock:    js-tokens "^4.0.0"
-./yarn.lock:js-tokens@^4.0.0:
-./yarn.lock:  resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
-./yarn.lock:  integrity sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg==
-./docker-compose.dummy.yml:      POSTGRES_PASSWORD: 'aaaaa'
-./docker-compose.dummy.yml:      RABBITMQ_DEFAULT_PASS: 12345
+./src/config-in-code/docker-compose.yml:      DB_URI: ''
+./src/config-in-code/docker-compose.yml:      POSTGRES_PASSWORD: 'aaaaa'
+./src/config-in-code/docker-compose.yml:      RABBITMQ_DEFAULT_PASS: 12345
+./src/config-in-code/rabbit/rabbitConnection.ts:                const uri = 'amqp://testing:test@rabbit:6666';
+./src/config-in-code/rabbit/rabbitConnection.ts:                this.connection = await client.connect(uri);
 ```
