@@ -21,6 +21,12 @@ For in-code config:
 ```
 to scan files for credentials, passwords, usernames, logins, emails, secrets and api keys.
 
+For in-env config:
+
+```bash
+"grep -r -E -i --exclude-dir=node_modules 'password|token|apikey|api_key|aws_key|awskey|credentials|pwd|email|e-mail|login|username|uri' ./src/config-in-env"
+```
+
 > Software and OS used in this implementation:
 - OS: Linux alpine in a docker container
 - Backing service, Database: PostgreSQL
